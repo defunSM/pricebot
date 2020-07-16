@@ -14,20 +14,22 @@ module.exports = {
         const result = await exec("C:\\Users\\Cloud\\Desktop\\KF2\\KF2Server.bat");
         console.log(result);
         
-        async.main(async () => {
-            const input = await Apify.getValue('INPUT');
-            const browser = await Apify.launchPuppeteer();
+        async function screenshot() {
+            const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
             const page = await browser.newPage();
-            await page.goto(`${SERVER_URL}`);
+            await page.goto(`${SERVER_URL}`, {waitUntil: 'networkidle0'});
             // login
-            await page.type(`${KF2_USERNAME}`, input.username);
-            await page.type(`${KF2_PASSWORD}`, input.password);
+            await page.type(`#username`, KF2_USERNAME);
+            await page.type(`#password`, KF2_PASSWORD);
             await page.click('#loginbutton input');
             await page.waitForNavigation();
 
             await page.screenshot({path: 'example.png'});
-        })
+        }
         
-        
+        setTimeout(screenshot, 4000);
+
+
+        msg.channel.send({files: ["./example.png"]})
     }
 }
