@@ -25,7 +25,7 @@ client.on('message', msg => {
     showWeather(msg, embed);
   }
 
-  if (msg.content.includes("!start")) {
+  if (msg.content.includes("!startserver")) {
     startServer(msg, embed);
   }
 });

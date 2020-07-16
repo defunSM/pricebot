@@ -21,7 +21,7 @@ module.exports = {
             // login
             await page.type(`#username`, KF2_USERNAME);
             await page.type(`#password`, KF2_PASSWORD);
-            await page.click('#loginbutton input');
+            await page.click('[type="submit"]');
             await page.waitForNavigation();
 
             await page.screenshot({path: 'example.png'});
