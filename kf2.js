@@ -14,7 +14,7 @@ module.exports = {
         const result = await exec("C:\\Users\\Cloud\\Desktop\\KF2\\KF2Server.bat");
         console.log(result);
         
-        async function screenshot() {
+        async.main(async () => {
             const input = await Apify.getValue('INPUT');
             const browser = await Apify.launchPuppeteer();
             const page = await browser.newPage();
@@ -26,8 +26,8 @@ module.exports = {
             await page.waitForNavigation();
 
             await page.screenshot({path: 'example.png'});
-        }
+        })
         
-        setTimeout(screenshot, 6000);
+        
     }
 }
