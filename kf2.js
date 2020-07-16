@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { exec, spawn } = require('child_process');
 require('dotenv').config();
 
 const SERVER_URL = 'http://localhost:8080';
@@ -6,8 +7,8 @@ const SERVER_URL = 'http://localhost:8080';
 module.exports = {
     startServer: async function (msg, embed) {
 
-        var wshShell = new ActiveXObject("WScript.Shell");
-        wshShell.Run("C:\\Users\\Cloud\\Desktop\\KF2\\KF2Server.bat");
+        const result = await exec("C:\\Users\\Cloud\\Desktop\\KF2\\KF2Server.bat");
+        console.log(result);
         
         async function screenshot() {
             const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
