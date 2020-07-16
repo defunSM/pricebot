@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+require('dotenv').config();
 
 const SERVER_URL = 'http://localhost:8080';
 
