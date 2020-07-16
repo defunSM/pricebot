@@ -8,10 +8,14 @@ module.exports = {
 
         var wshShell = new ActiveXObject("WScript.Shell");
         wshShell.Run("C:\\Users\\Cloud\\Desktop\\KF2\\KF2Server.bat");
-
-        const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
-        const page = await browser.newPage();
-        await page.goto(`${SERVER_URL}`);
-        await page.screenshot({path: 'example.png'});
+        
+        async function screenshot() {
+            const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
+            const page = await browser.newPage();
+            await page.goto(`${SERVER_URL}`);
+            await page.screenshot({path: 'example.png'});
+        }
+        
+        setTimeout(screenshot, 6000);
     }
 }
