@@ -7,6 +7,7 @@ const { startServer } = require('./kf2.js');
 require('dotenv').config();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+var SERVER_STATUS = false;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -27,6 +28,10 @@ client.on('message', msg => {
 
   if (msg.content.includes("!startserver")) {
     startServer(msg, embed);
+  }
+
+  if (msg.content.includes("killserver")) {
+    killServer(msg, embed);
   }
 });
 

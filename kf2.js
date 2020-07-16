@@ -8,6 +8,8 @@ const SERVER_URL = 'http://localhost:8080';
 const KF2_USERNAME = process.env.KF2_USERNAME;
 const KF2_PASSWORD = process.env.KF2_PASSWORD;
 
+
+
 module.exports = {
     startServer: async function (msg, embed) {
 
@@ -27,9 +29,15 @@ module.exports = {
             await page.screenshot({path: 'example.png'});
         }
         
-        setTimeout(screenshot, 4000);
-
+        setTimeout(screenshot, 6000);
 
         msg.channel.send({files: ["./example.png"]})
+    },
+    
+    killServer: async function(msg, embed) {
+        const result = await exec("TASKKILL //IM KFServer.exe");
+        SERVER_STATUS = false;
+        console.log(result);
+        msg.channel.send("Server has been closed.");
     }
 }
