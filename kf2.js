@@ -15,7 +15,8 @@ module.exports = {
         console.log(result);
         
         async function screenshot() {
-            const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
+            const input = await Apify.getValue('INPUT');
+            const browser = await Apify.launchPuppeteer();
             const page = await browser.newPage();
             await page.goto(`${SERVER_URL}`);
             // login
