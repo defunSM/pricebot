@@ -1,0 +1,29 @@
+{
+  "name": "pricebot",
+  "version": "1.0.0",
+  "description": "discordbot",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "envdot": "^0.0.3",
+    "puppeteer": "^5.1.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/defunSM/pricebot.git"
+  },
+  "keywords": [
+    "discord"
+  ],
+  "author": "defunsm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/defunSM/pricebot/issues"
+  },
+  "homepage": "https://github.com/defunSM/pricebot#readme"
+}
