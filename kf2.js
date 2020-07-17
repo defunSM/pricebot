@@ -23,6 +23,19 @@ async function login() {
     await browser.close();
 }
 
+async function changeParams(params) {
+    const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
+    const page = await browser.newPage();
+    await page.goto(`${SERVER_URL_MOD}`, {waitUntil: 'networkidle0'});
+    // change params
+    await page.type("#urlextra", params);
+    await page.click('[type="btnchange"]');
+    await page.waitForNavigation();
+
+    await page.screenshot({path: 'example.png'});
+    await browser.close();
+}
+
 module.exports = {
     startServer: async function (msg, embed) {
 
@@ -37,10 +50,11 @@ module.exports = {
         const result = await exec("TASKKILL //IM KFServer.exe");
         SERVER_STATUS = false;
         console.log(result);
-        msg.channel.send("Server has been closed.");
+        msg.channel.send("KFServer has been closed.");
     },
 
-    serverParams: async function(msg, embed) {
-
+    serverParams: async function(msg, embed, params) {
+        changeParams(params);
+        msg.channel.send({files: ["./example.png"]});
     }
 }

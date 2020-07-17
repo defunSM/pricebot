@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const { findPrice } = require('./price.js');
 const { showWeather } = require('./weather.js');
 const { strict } = require('assert');
-const { startServer, killServer } = require('./kf2.js');
+const { startServer, killServer, serverParams } = require('./kf2.js');
 require('dotenv').config();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
@@ -29,8 +29,13 @@ client.on('message', msg => {
     startServer(msg, embed);
   }
 
-  if (msg.content.includes("killserver")) {
+  if (msg.content.includes("!killserver")) {
     killServer(msg, embed);
+  }
+
+  if (msg.content.includes("!params")) {
+    params = msg.content.split(" ").slice(1).join(" ");
+    serverParams(msg, embed, params);
   }
 });
 
