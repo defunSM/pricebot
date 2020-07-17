@@ -3,11 +3,10 @@ const client = new Discord.Client();
 const { findPrice } = require('./price.js');
 const { showWeather } = require('./weather.js');
 const { strict } = require('assert');
-const { startServer } = require('./kf2.js');
+const { startServer, killServer } = require('./kf2.js');
 require('dotenv').config();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-var SERVER_STATUS = false;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
