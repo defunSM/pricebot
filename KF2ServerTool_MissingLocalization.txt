@@ -1,0 +1,1 @@
+"This will force verify the integrity of server, if some file is missing/corrupted will be reapaired\nAlso if it's available the server will be updated.\nAre you sure?"="This will force verify the integrity of server, if some file is missing/corrupted will be reapaired\nAlso if it's available the server will be updated.\nAre you sure?"

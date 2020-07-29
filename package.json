@@ -4,8 +4,10 @@
   "description": "discordbot",
   "main": "bot.js",
   "dependencies": {
+    "apify": "^0.21.0",
     "discord.js": "^12.2.0",
     "envdot": "^0.0.3",
+    "ps-node": "^0.1.6",
     "puppeteer": "^5.1.0",
     "request": "^2.88.2"
   },

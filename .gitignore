@@ -2,3 +2,13 @@
 *.env
 /node_modules
 *.png
+*.dll
+*.exe
+*.ini
+/Binaries
+/KFGame
+/steamcmd
+/steamapps
+/imgs
+/Engine
+/vscode

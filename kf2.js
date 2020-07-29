@@ -26,11 +26,21 @@ async function login() {
 async function changeParams(params) {
     const browser = await puppeteer.launch({defaultViewport: {width: 1000, height: 650}});
     const page = await browser.newPage();
+	await page.setDefaultNavigationTimeout(0); 
+	
+	await page.goto(`${SERVER_URL}`, {waitUntil: 'networkidle0'});
+    // login
+    await page.type(`#username`, KF2_USERNAME);
+    await page.type(`#password`, KF2_PASSWORD);
+    await page.click('[type="submit"]');
+    await page.waitForNavigation();
+	
+	
     await page.goto(`${SERVER_URL_MOD}`, {waitUntil: 'networkidle0'});
     // change params
     await page.type("#urlextra", params);
-    await page.click('[type="btnchange"]');
-    await page.waitForNavigation();
+    await page.click('[id="btnchange"]');
+    await page.waitForNavigation(); 
 
     await page.screenshot({path: 'example.png'});
     await browser.close();
