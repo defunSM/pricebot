@@ -1,6 +1,6 @@
 var ps = require('ps-node');
 fs = require('fs');
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
  
 const COMMAND = 'kfserver';
 var SERVER_PIDS = [];
@@ -106,6 +106,7 @@ function runKF2BatFile () {
 }
 
 function checkKF2ServerStarted (msg, embed) {
+	gamelookup();
 	ps.lookup({
 		command: COMMAND
 		}, function(err, resultList ) {
