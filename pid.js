@@ -6,6 +6,7 @@ const COMMAND = 'kfserver';
 var SERVER_PIDS = [];
 // A simple pid lookup
 
+
 // Returns KF2 game arguments such as the map, mutators, gamemode and etc...
 async function gamelookup() {
 	var ARGUMENTS = [];
@@ -28,7 +29,7 @@ async function gamelookup() {
 	
 }
 
-async function readgameinfo(msg, embed) {
+async function readgameinfo(msg, embed, server) {
 	fs.readFile('kf2statuslog.txt', 'utf8', function (err, data) {
 		if (err) return console.log(err);
 		console.log(data);
@@ -44,12 +45,14 @@ async function readgameinfo(msg, embed) {
 					switch(keys[1]) {
 						case "0":
 							embed.addField(`${keys[0]}:`, `normal`, false);
+							server.setDifficulty('normal');
 							break;
 						case "1":
 							embed.addField(`${keys[0]}:`, `hard`, false);
 							break;
 						case "2":
 							embed.addField(`${keys[0]}:`, `suicidal`, false);
+							server.difficulty = "suicidal";
 							break;
 						case "3":
 							embed.addField(`${keys[0]}:`, `hell on earth`, false);
@@ -71,6 +74,8 @@ async function readgameinfo(msg, embed) {
 						default:
 							embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
 					}
+				} else if (keys[0] == "pid") {
+					server.pid = keys[1];
 				} else {
 					embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
 				}
@@ -87,7 +92,7 @@ async function readgameinfo(msg, embed) {
 }
 
 async function createKF2BatFile (msg, embed) {
-	let binary = "start .\\Binaries\\win64\\kfserver "
+	let binary = ".\\Binaries\\win64\\kfserver "
 	let map = "KF-BurningParis"
 	let mutators = "?game=ZedternalReborn.WMGameInfo_Endless?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut,FriendlyHUD.FriendlyHUDMutator?MaxPlayers=25?GameLength=2?difficulty=2?players=12"
 	let bat = binary + map + mutators
@@ -98,7 +103,7 @@ async function createKF2BatFile (msg, embed) {
 }
 
 function runKF2BatFile () {
-	exec("D:\\KF2\\KF2BatFile.bat", function(error, stdout, stderr) {
+	exec("start D:\\KF2\\KF2BatFile.bat", function(error, stdout, stderr) {
 		console.log(stdout);
 		console.log(stderr);
 	});
@@ -117,9 +122,8 @@ function checkKF2ServerStarted (msg, embed) {
 		//console.log(resultList[0]);
 		fs.readFile('kf2statuslog.txt', 'utf8', function (err, data) {
 			if (err) {return console.log(err) } 
-			console.log(JSON.stringify(data));
-			var data2 = JSON.stringify(data);
-			msg.channel.send(data2);
+			msg.channel.send(JSON.parse(data).pid);
+			
 
 		});
 
@@ -129,12 +133,12 @@ function checkKF2ServerStarted (msg, embed) {
 
 
 module.exports = {
-	gamestatus: async function (msg, embed) {
+	gamestatus: async function (msg, embed, server) {
 		try {
 			const result = await gamelookup();
 		} catch (err) {console.log(err)}
 		
-		const lookupresult = await readgameinfo(msg, embed);
+		const lookupresult = await readgameinfo(msg, embed, server);
 	},
 	killServer: async function (msg, embed) {
 		createKF2BatFile(); // Creates the bat file that will be executed to start the KF2 Server
@@ -142,10 +146,45 @@ module.exports = {
 		checkKF2ServerStarted(); // checks if the server did start by obtaining its PID
 
 	},
-	startServer: async function (msg, embed) {
+	startServer: async function (msg, embed, server) {
 		createKF2BatFile();
 		runKF2BatFile();
 		checkKF2ServerStarted(msg, embed);
+	},
+	Server: class {
+		// Class that stores KF2 server properties (pid, map, mutators, maxPlayers, etc...)
+		constructor(pid=0, map=0, mutators="none", maxPlayers=6, difficulty=0, length=0) {
+			this.pid = pid;
+			this.map = map;
+			this.mutators = mutators;
+			this.maxPlayers = maxPlayers;
+			this.difficulty = difficulty;
+			this.length = length
+		}
+	
+		setPid(pidOfServer) {
+			this.pid = pidOfServer;
+		}
+	
+		setMap(mapname) {
+			this.map = mapname;
+		}
+	
+		setMutators(mutatorString) {
+			this.mutators = mutatorString;
+		}
+	
+		setMaxPlayers(maxPlayers) {
+			this.maxPlayers = maxPlayers;
+		}
+
+		setDifficulty(difficulty) {
+			this.difficulty = difficulty;
+		}
+
+		setLength(length) {
+			this.length = length;
+		}
 	}
 }
 
