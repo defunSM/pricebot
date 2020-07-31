@@ -31,6 +31,8 @@ client.on('message', msg => {
 
   if (msg.content.includes("!startserver")) {
     
+    console.log(msg.content);
+
     startServer(msg, embed, server);
     
   }

@@ -1,1 +1,1 @@
-.\Binaries\win64\kfserver KF-BurningParis?game=ZedternalReborn.WMGameInfo_Endless?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut?MaxPlayers=25?GameLength=2?difficulty=2?players=12
+.\Binaries\win64\kfserver KF-BurningParis?game=KFGameContent.KFGameInfo_Survival?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut?MaxPlayers=25?GameLength=2?difficulty=0
