@@ -44,67 +44,6 @@ async function gamelookup() {
 	});
 	
 }
-// Reads from a file to know what he server properties are.
-async function readgameinfo(msg, embed, kfServer) {
-	fs.readFile('kf2statuslog.txt', 'utf8', function (err, data) {
-		if (err) return console.log(err);
-		console.log(data);
-		var data = JSON.stringify(JSON.parse(data).arguments[0]).split("?");
-		//msg.channel.send(data);
-		
-		embed.setTitle("KF2 Server Status");
-		embed.setColor('#0099ff');
-		data.forEach(function (item) {
-			var keys = item.split("=");
-			if (keys[1]) {
-				if (keys[0] == "difficulty") {
-					switch(keys[1]) {
-						case "0":
-							embed.addField(`${keys[0]}:`, `normal`, false);
-							break;
-						case "1":
-							embed.addField(`${keys[0]}:`, `hard`, false);
-							break;
-						case "2":
-							embed.addField(`${keys[0]}:`, `suicidal`, false);
-							break;
-						case "3":
-							embed.addField(`${keys[0]}:`, `hell on earth`, false);
-							break;
-						default:
-							embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
-					} 
-				} else if (keys[0] == "GameLength") {
-					switch(keys[1]) {
-						case "0":
-							embed.addField(`${keys[0]}:`, `short (5 waves)`, false);
-							break;
-						case "1":
-							embed.addField(`${keys[0]}:`, `medium (7 waves)`, false);
-							break;
-						case "2":
-							embed.addField(`${keys[0]}:`, `long (10 waves)`, false);
-							break;
-						default:
-							embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
-					}
-				} else if (keys[0] == "players") {
-					// embed.addField(`${keys[0]}:`, `${keys[1].replace("\"", "")}`, false);
-				} else {
-					embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
-				}
-				
-			} else {
-				embed.addField(`Map: `, `${keys[0].replace("\"", "")}`, false);
-				// kfServer.setMap(keys[0]);
-			}
-			
-		})
-
-		msg.channel.send({embed});
-
-		});
-}
 // Creates a bat file to exec later that the runKF2BatFile function uses
 async function createKF2BatFile (msg, embed) {
 	let binary = ".\\Binaries\\win64\\kfserver "
@@ -206,12 +145,31 @@ function checkKF2ServerStarted (msg, embed, server) {
 
 // importing to bot.js
 module.exports = {
-	gamestatus: async function (msg, embed, kfServer) {
+	gamestatus: async function (msg, embed, server) {
 		try {
-			const result = await gamelookup();
+			//const result = await gamelookup();
+			if (server.status != "offline") {
+				
+				embed.setTitle("KF2 Server Status");
+				embed.setColor('#0099ff');
+				embed.addField("Map:", server.map, false);
+				embed.addField("Gamemode: ", server.gameMode, false);
+				embed.addField("Mutators:", server.mutators, false);
+				embed.addField("MaxPlayers:", server.maxPlayers, false);
+				embed.addField("GameLength", server.length, false);
+				embed.addField("Difficulty", server.difficulty, false);
+	
+				msg.channel.send({embed});
+
+			} else {
+				embed.setTitle("KF2 Server is not running");
+				embed.setColor('#FF0000');
+			}
+
+
 		} catch (err) {console.log(err)}
 		
-		const lookupresult = await readgameinfo(msg, embed, kfServer);
+		//const lookupresult = await readgameinfo(msg, embed, kfServer);
 	},
 	killServer: async function (msg, embed, server) {
 		ps.kill( server.pid, { 
@@ -233,6 +191,7 @@ module.exports = {
 				createKF2BatFile();
 				runKF2BatFile();
 				checkKF2ServerStarted(msg, embed, server);
+				
 				server.status = "online";
 	
 				embed.setTitle("KF2 Server started");
