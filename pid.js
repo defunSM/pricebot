@@ -22,8 +22,6 @@ const COMMAND = 'kfserver';
 var SERVER_PIDS = [];
 // A simple pid lookup
 
-
-
 // Returns KF2 game arguments such as the map, mutators, gamemode and etc...
 async function gamelookup() {
 	var ARGUMENTS = [];
@@ -46,7 +44,7 @@ async function gamelookup() {
 	});
 	
 }
-
+// Reads from a file to know what he server properties are.
 async function readgameinfo(msg, embed, kfServer) {
 	fs.readFile('kf2statuslog.txt', 'utf8', function (err, data) {
 		if (err) return console.log(err);
@@ -107,7 +105,7 @@ async function readgameinfo(msg, embed, kfServer) {
 
 		});
 }
-
+// Creates a bat file to exec later that the runKF2BatFile function uses
 async function createKF2BatFile (msg, embed) {
 	let binary = ".\\Binaries\\win64\\kfserver "
 	let map = "KF-BurningParis"
@@ -118,7 +116,7 @@ async function createKF2BatFile (msg, embed) {
 		  console.log('wrote to KF2BatFile.bat');
 		});
 }
-
+// Executes the bat file created from the createKF2BatFile
 function runKF2BatFile () {
 	exec("start D:\\KF2\\KF2BatFile.bat", function(error, stdout, stderr) {
 		console.log(stdout);
@@ -126,7 +124,7 @@ function runKF2BatFile () {
 	});
 	console.log("Started KF2 Server")
 }
-
+// Looks up if there is a kfserver running and collects its arguments
 function checkKF2ServerStarted (msg, embed, server) {
 	gamelookup();
 	ps.lookup({
@@ -206,7 +204,7 @@ function checkKF2ServerStarted (msg, embed, server) {
 });
 }
 
-
+// importing to bot.js
 module.exports = {
 	gamestatus: async function (msg, embed, kfServer) {
 		try {
@@ -247,29 +245,6 @@ module.exports = {
 			this.gameMode = gameMode;
 		}
 	
-		setPid(pidOfServer) {
-			this.pid = pidOfServer;
-		}
-	
-		setMap(mapname) {
-			this.map = mapname;
-		}
-	
-		setMutators(mutatorString) {
-			this.mutators = mutatorString;
-		}
-	
-		setMaxPlayers(maxPlayers) {
-			this.maxPlayers = maxPlayers;
-		}
-
-		setDifficulty(difficulty) {
-			this.difficulty = difficulty;
-		}
-
-		setLength(length) {
-			this.length = length;
-		}
 	}
 }
 
