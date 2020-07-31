@@ -1,1 +1,1 @@
-{"pid":"6164","command":".\\Binaries\\win64\\kfserver","arguments":["KF-BurningParis?game=ZedternalReborn.WMGameInfo_Endless?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut?MaxPlayers=25?GameLength=2?difficulty=2?players=12"],"ppid":"11668"}
+{"pid":"13116","command":".\\Binaries\\win64\\kfserver","arguments":["KF-BurningParis?game=ZedternalReborn.WMGameInfo_Endless?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut?MaxPlayers=25?GameLength=2?difficulty=2?players=12"],"ppid":"13252"}

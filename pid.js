@@ -219,17 +219,34 @@ module.exports = {
 			timeout: 10,  // will set up a ten seconds timeout if the killing is not successful
 		}, console.log("Server killed"));
 
+		embed.setTitle("KF2 Server killed");
+		embed.setColor('#0099ff');
+		msg.channel.send({embed});
+
+		server.status = "offline";
+
 	},
 	startServer: async function (msg, embed, server) {
 		try {
-			createKF2BatFile();
-			runKF2BatFile();
-			checkKF2ServerStarted(msg, embed, server);
 
-			embed.setTitle("KF2 Server started");
-			embed.setColor('#00FF00');
-			//embed.addField("PID: ", server.pid, false);
-			msg.channel.send({embed});
+			if(server.status != "online") {
+				createKF2BatFile();
+				runKF2BatFile();
+				checkKF2ServerStarted(msg, embed, server);
+				server.status = "online";
+	
+				embed.setTitle("KF2 Server started");
+				embed.setColor('#0099ff');
+				//embed.addField("PID: ", server.pid, false);
+				msg.channel.send({embed});
+			
+			} else {
+				embed.setTitle("KF2 Server is already running");
+				embed.setColor('#FF0000');
+
+				msg.channel.send({embed});
+			}
+			
 
 		} catch {console.log(err)}
 		
