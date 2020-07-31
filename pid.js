@@ -6,16 +6,16 @@ const { exec, spawn } = require('child_process');
 // difficulty
 
 const difficulty = {
-	HELL: "Hell on Earth",
-	SUICIDAL: "Suicidal",
-	HARD: "Hard",
-	NORMAL: "Normal"
+	HELL: "hell on earth",
+	SUICIDAL: "suicidal",
+	HARD: "hard",
+	NORMAL: "normal"
 }
 
 const waveLength = {
-	SHORT: "Short (5 waves)",
-	MEDIUM: "Medium (7 waves)",
-	LONG: "Long (10 waves)"
+	SHORT: "short (5 waves)",
+	MEDIUM: "medium (7 waves)",
+	LONG: "long (10 waves)"
 }
 
 const COMMAND = 'kfserver';
@@ -90,14 +90,14 @@ async function readgameinfo(msg, embed, kfServer) {
 						default:
 							embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
 					}
-				} else if (keys[0] == "pid") {
-					// server.pid = keys[1];
+				} else if (keys[0] == "players") {
+					// embed.addField(`${keys[0]}:`, `${keys[1].replace("\"", "")}`, false);
 				} else {
 					embed.addField(`${keys[0]}:`, `${keys[1]}`, false);
 				}
 				
 			} else {
-				embed.addField(`Map: `, `${keys[0]}`, false);
+				embed.addField(`Map: `, `${keys[0].replace("\"", "")}`, false);
 				// kfServer.setMap(keys[0]);
 			}
 			
@@ -194,10 +194,10 @@ function checkKF2ServerStarted (msg, embed, server) {
 							console.log(key[0]);
 					}
 				} else {
-					server.map = key[0];
+					server.map = key[0].replace("[\"", "");
 				}
 			}
-			msg.channel.send(args);
+			// msg.channel.send(args);
 			
 
 		});
@@ -226,6 +226,12 @@ module.exports = {
 			createKF2BatFile();
 			runKF2BatFile();
 			checkKF2ServerStarted(msg, embed, server);
+
+			embed.setTitle("KF2 Server started");
+			embed.setColor('#00FF00');
+			//embed.addField("PID: ", server.pid, false);
+			msg.channel.send({embed});
+
 		} catch {console.log(err)}
 		
 	},
