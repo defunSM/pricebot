@@ -36,7 +36,7 @@ client.on('message', msg => {
   }
 
   if (msg.content.includes("!killserver")) {
-    killServer(msg, embed);
+    killServer(msg, embed, server);
   }
 
   if (msg.content.includes("!params")) {
@@ -46,7 +46,7 @@ client.on('message', msg => {
   
   if (msg.content.includes("!kf2")) {
     gamestatus(msg, embed, server);
-    msg.channel.send(JSON.stringify(server));
+    //msg.channel.send(JSON.stringify(server));
   }
 });
 

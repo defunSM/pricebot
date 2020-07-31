@@ -3,8 +3,7 @@ fs = require('fs');
 const { exec, spawn } = require('child_process');
 
 
-// difficulty
-
+// difficulty of the server
 const difficulty = {
 	HELL: "hell on earth",
 	SUICIDAL: "suicidal",
@@ -12,6 +11,7 @@ const difficulty = {
 	NORMAL: "normal"
 }
 
+// # of waves
 const waveLength = {
 	SHORT: "short (5 waves)",
 	MEDIUM: "medium (7 waves)",
@@ -213,10 +213,11 @@ module.exports = {
 		
 		const lookupresult = await readgameinfo(msg, embed, kfServer);
 	},
-	killServer: async function (msg, embed) {
-		createKF2BatFile(); // Creates the bat file that will be executed to start the KF2 Server
-		runKF2BatFile(); // executes the KF2BatFile.bat 
-		checkKF2ServerStarted(); // checks if the server did start by obtaining its PID
+	killServer: async function (msg, embed, server) {
+		ps.kill( server.pid, { 
+			signal: 'SIGKILL',
+			timeout: 10,  // will set up a ten seconds timeout if the killing is not successful
+		}, console.log("Server killed"));
 
 	},
 	startServer: async function (msg, embed, server) {
@@ -235,8 +236,9 @@ module.exports = {
 	},
 	Server: class {
 		// Class that stores KF2 server properties (pid, map, mutators, maxPlayers, etc...)
-		constructor(pid=0, map=0, mutators="none", maxPlayers=6, difficulty=0, length=0, gameMode=0) {
+		constructor(pid=0, status="offline", map=0, mutators="none", maxPlayers=6, difficulty=0, length=0, gameMode=0) {
 			this.pid = pid;
+			this.status = status;
 			this.map = map;
 			this.mutators = mutators;
 			this.maxPlayers = maxPlayers;
