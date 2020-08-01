@@ -50,6 +50,15 @@ client.on('message', msg => {
     gamestatus(msg, embed, server);
     //msg.channel.send(JSON.stringify(server));
   }
+
+  if (msg.content == "!maps") {
+    msg.channel.send("https://i.imgur.com/nvldvkP.png");
+    msg.channel.send("https://i.imgur.com/g2nHRr7.png");
+  }
+
+  if (msg.content == "!kf2help") {
+    msg.channel.send("https://i.imgur.com/Of5nJVs.png");
+  }
 });
 
 client.login(DISCORD_TOKEN);

@@ -1,8 +1,11 @@
 var ps = require('ps-node');
 fs = require('fs');
-const { exec, spawn } = require('child_process');
+const { exec } = require('child_process');
 
-const PATH_TO_KF_BAT = "D:\\KF2\\KF2BatFile.bat";
+// !kf2 -> Displays current server status
+// !kf2help -> Displays this png of commands
+// !startserver -> starts the server
+// !killserver -> stops server
 
 
 // difficulty of the server
@@ -19,7 +22,7 @@ const waveLength = {
 	MEDIUM: "medium (7 waves)",
 	LONG: "long (10 waves)"
 }
-
+// Game modes weekly, survival, endless versus and the zedternal mod
 const gameModes = {
 	WEEKLY: "KFGameContent.KFGameInfo_WeeklySurvival",
 	SURVIVAL: "KFGameContent.KFGameInfo_Survival",
@@ -56,13 +59,11 @@ async function gamelookup() {
 // Creates a bat file to exec later that the runKF2BatFile function uses
 async function createKF2BatFile (msg, embed, server) {
 	let binary = ".\\Binaries\\win64\\kfserver "
-	
-	let mutators = "?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut?MaxPlayers=25?GameLength=2?difficulty=2?players=12"
 	let mutator = "?Mutator=KFMutator.KFMutator_MaxPlayersV2,DamageDisplay.DmgMut,ClassicScoreboard.ClassicSCMut?MaxPlayers="
 	
 	
 	let bat = binary + server.map + "?game=" + server.gameMode + mutator + server.maxPlayers + "?GameLength=" + server.length + "?difficulty=" + server.difficulty
-	console.log("RESULT: ", bat);
+	//console.log("RESULT: ", bat);
 	
 	fs.writeFile('KF2BatFile.bat', bat, function (err) {
 		if (err) return console.log(err);
@@ -91,12 +92,12 @@ function checkKF2ServerStarted (msg, embed, server) {
 		fs.readFile('kf2statuslog.txt', 'utf8', function (err, data) {
 			if (err) {return console.log(err) } 
 			
-			console.log("data:\n"+data.split("\n"));
+			//console.log("data:\n"+data.split("\n"));
 			pid = JSON.parse(data).pid;
-			console.log("PID: " + pid);
+			//console.log("PID: " + pid);
 			args = JSON.parse(data).arguments;
 			server.pid = pid;
-			console.log("server.pid: ", server.pid);
+			//console.log("server.pid: ", server.pid);
 
 			property = JSON.stringify(args).split("?");
 			for (var i=0; i < property.length; i++) {
@@ -156,7 +157,7 @@ module.exports = {
 		try {
 			//const result = await gamelookup();
 			if (server.status == "online") {
-				
+				// !kf2 command displays server properties (Map, Gamemode, mutators, maxplayers etc)
 				embed.setTitle("KF2 Server Status");
 				embed.setColor('#0099ff');
 				embed.addField("Map:", server.map, false);
@@ -176,23 +177,6 @@ module.exports = {
 						break;
 				}
 
-				// switch(server.difficulty) {
-				// 	case "0":
-				// 		embed.addField("Difficulty", difficulty.NORMAL, false);
-				// 		break;
-				// 	case "1":
-				// 		embed.addField("Difficulty", difficulty.HARD, false);
-				// 		break;
-				// 	case "2":
-				// 		embed.addField("Difficulty", difficulty.SUICIDAL, false);
-				// 		break;
-				// 	case "3":
-				// 		embed.addField("Difficulty", difficulty.HELL, false);
-				// 		break;
-				// 	default:
-				// 		console.log("Strange server.difficulty -", server.difficulty);
-				// }	
-
 				embed.addField("Difficulty:", server.difficulty);
 				
 	
@@ -206,8 +190,9 @@ module.exports = {
 
 		} catch (err) {console.log(err)}
 		
-		//const lookupresult = await readgameinfo(msg, embed, kfServer);
+
 	},
+	// !killserver
 	killServer: async function (msg, embed, server) {
 		ps.kill( server.pid, { 
 			signal: 'SIGKILL',
@@ -221,6 +206,7 @@ module.exports = {
 		server.status = "offline";
 
 	},
+	// !startserver accepts map=, game=, maxplayers=, difficulty=, and length=
 	startServer: async function (msg, embed, server) {
 		try {
 
