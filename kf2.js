@@ -66,5 +66,12 @@ module.exports = {
     serverParams: async function(msg, embed, params) {
         changeParams(params);
         msg.channel.send({files: ["./example.png"]});
+    },
+// !kf2login command to show screenshot of current game
+    kf2Login: async function (msg, embed) {
+        msg.channel.send("Logging into KF2 Server, Please wait...")
+        await login();
+        msg.channel.send({files: ["./example.png"]});
+        console.log("kf2Login function executed");
     }
 }

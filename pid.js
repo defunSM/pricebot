@@ -36,23 +36,21 @@ const COMMAND = 'kfserver';
 
 // Returns KF2 game arguments such as the map, mutators, gamemode and etc...
 async function gamelookup() {
-	var ARGUMENTS = [];
+
 	ps.lookup({
     command: COMMAND
     }, function(err, resultList ) {
     if (err) {
         throw new Error( err );
     }
-	//console.log(resultList);
+
 	console.log("results:")
 	console.log(resultList[0]);
+	
 	fs.writeFile('kf2statuslog.txt', JSON.stringify(resultList[0]), function (err) {
 	if (err) return console.log(err);
 	  console.log('wrote to kf2statuslog.txt');
 	});
-	// fs.close('kf2statuslog.txt', function (err) {
-	// 	if (err) return console.log(err);
-	// })
 	});
 	
 }
