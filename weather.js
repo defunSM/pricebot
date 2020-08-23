@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 
+// changes weather from kelvin to fahrenheit
 function kelvinToFahrenheit (kelvin) {
     return Math.round(kelvin * (9/5) - 459.67);
 } 
