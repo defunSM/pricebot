@@ -11,7 +11,7 @@ require('dotenv').config();
 // TODO: Machine learning? With tensorflow.js?
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-server = new Server();
+// server = new Server();
 
 LIST_OF_COMMANDS = ['!price', '!weather', '!killServer', '!startserver', '!params', '!kf2', '!maps', '!kf2Login', '!kf2help']
 
