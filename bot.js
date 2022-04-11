@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const { findPrice } = require('./price.js');
-const { showWeather } = require('./weather.js');
-const { serverParams, kf2Login } = require('./kf2.js');
-const { Server, gamestatus, killServer, startServer } = require('./pid.js');
+//const { findPrice } = require('./price.js');
+//const { showWeather } = require('./weather.js');
+//const { serverParams, kf2Login } = require('./kf2.js');
+//const { Server, gamestatus, killServer, startServer } = require('./pid.js');
 const { melinaQuote } = require('./melina.js')
 require('dotenv').config();
 
@@ -23,59 +23,59 @@ client.on('message', msg => {
 
   const embed = new Discord.MessageEmbed();
   
-  if (msg.content.includes("!price")) {
-    searchItem = msg.content.split(" ").slice(1).join(" ");
-    findPrice(searchItem, searchItem, embed);
-  }
+  // if (msg.content.includes("!price")) {
+  //   searchItem = msg.content.split(" ").slice(1).join(" ");
+  //   findPrice(searchItem, searchItem, embed);
+  // }
 
   if(msg.content.includes(client.user.id)) {
     msg.channel.send(melinaQuote());
   }
 
-  if (msg.content.includes("!weather")) {
-    showWeather(msg, embed);
-  }
+  // if (msg.content.includes("!weather")) {
+  //   showWeather(msg, embed);
+  // }
 
-  if (msg.content.includes("!startserver")) {
+  // if (msg.content.includes("!startserver")) {
     
-    try {
-      if (msg.member.hasPermission('ADMINISTRATOR')) console.log('User is an admin.');
-    } catch {
-      console.log("user is not ADmin:");
-    }
+  //   try {
+  //     if (msg.member.hasPermission('ADMINISTRATOR')) console.log('User is an admin.');
+  //   } catch {
+  //     console.log("user is not ADmin:");
+  //   }
     
-    console.log(msg.content);
+  //   console.log(msg.content);
 
-    startServer(msg, embed, server);
+  //   startServer(msg, embed, server);
     
-  }
+  // }
 
-  if (msg.content.includes("!killserver")) {
-    killServer(msg, embed, server);
-  }
+  // if (msg.content.includes("!killserver")) {
+  //   killServer(msg, embed, server);
+  // }
 
-  if (msg.content.includes("!params")) {
-    params = msg.content.split(" ").slice(1).join(" ");
-    serverParams(msg, embed, params);
-  }
+  // if (msg.content.includes("!params")) {
+  //   params = msg.content.split(" ").slice(1).join(" ");
+  //   serverParams(msg, embed, params);
+  // }
   
-  if (msg.content.includes("!kf2")) {
-    gamestatus(msg, embed, server);
-    //msg.channel.send(JSON.stringify(server));
-  }
+  // if (msg.content.includes("!kf2")) {
+  //   gamestatus(msg, embed, server);
+  //   //msg.channel.send(JSON.stringify(server));
+  // }
 
-  if (msg.content == "!maps") {
-    msg.channel.send("https://i.imgur.com/nvldvkP.png");
-    msg.channel.send("https://i.imgur.com/g2nHRr7.png");
-  }
+  // if (msg.content == "!maps") {
+  //   msg.channel.send("https://i.imgur.com/nvldvkP.png");
+  //   msg.channel.send("https://i.imgur.com/g2nHRr7.png");
+  // }
 
-  if (msg.content == "!kf2help") {
-    msg.channel.send("https://i.imgur.com/Of5nJVs.png");
-  }
+  // if (msg.content == "!kf2help") {
+  //   msg.channel.send("https://i.imgur.com/Of5nJVs.png");
+  // }
 
-  if (msg.content == "!kf2login") {
-    kf2Login(msg, embed);
-  }
+  // if (msg.content == "!kf2login") {
+  //   kf2Login(msg, embed);
+  // }
 });
 
 client.login(DISCORD_TOKEN);
