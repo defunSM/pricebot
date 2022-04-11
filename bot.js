@@ -4,11 +4,16 @@ const { findPrice } = require('./price.js');
 const { showWeather } = require('./weather.js');
 const { serverParams, kf2Login } = require('./kf2.js');
 const { Server, gamestatus, killServer, startServer } = require('./pid.js');
+const { melinaQuote } = require('./melina.js')
 require('dotenv').config();
+
+// TODO: Organize the files and creat folder structure
+// TODO: Machine learning? With tensorflow.js?
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 server = new Server();
 
+LIST_OF_COMMANDS = ['!price', '!weather', '!killServer', '!startserver', '!params', '!kf2', '!maps', '!kf2Login', '!kf2help']
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -18,10 +23,13 @@ client.on('message', msg => {
 
   const embed = new Discord.MessageEmbed();
   
-
   if (msg.content.includes("!price")) {
     searchItem = msg.content.split(" ").slice(1).join(" ");
     findPrice(searchItem, searchItem, embed);
+  }
+
+  if(msg.content.includes(client.user.id)) {
+    msg.channel.send(melinaQuote());
   }
 
   if (msg.content.includes("!weather")) {

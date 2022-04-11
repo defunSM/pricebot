@@ -1,3 +1,4 @@
+
 const puppeteer = require('puppeteer');
 // const sharp = require('sharp');
 
@@ -34,7 +35,7 @@ module.exports = {
         }
         
         embed.setTimestamp();
-        msg.channel.send({embed})
+        msg.channel.send({embed});
 
         await browser.close();
     }

@@ -21,10 +21,10 @@ module.exports = {
 
             embed.setTitle(`Weather for ${obj['name']}`);
             embed.setColor('#0099ff');
-            
-            console.log(obj)
-            embed.setDescription(`${obj['weather'][0]['description']}`);
-            Object.keys(obj["main"]).forEach(function(key) {
+            try {
+                embed.setDescription(`${obj['weather'][0]['description']}`);
+
+                Object.keys(obj["main"]).forEach(function(key) {
                 if (key == 'temp') {
                     embed.addField(`${key}`, `${kelvinToFahrenheit(obj["main"][key])}`, false);
                 } else if (key == 'feels_like') {
@@ -37,7 +37,12 @@ module.exports = {
                     embed.addField(`${key}`, `${obj["main"][key]}`, false);
                 }
                 
-            });
+                });
+
+            }
+            catch (err) {
+                embed.addField(`ERROR`, `${err}`, false);
+            }
 
             msg.channel.send({embed});
         });
