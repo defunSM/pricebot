@@ -1,7 +1,6 @@
 /* 
 melina.js as the name suggests contains all the functionality for the melina character such as saying
 quotes from the elden ring. 
-
 */
 
 const melinaQuotes = [
@@ -17,7 +16,6 @@ const melinaQuotes = [
     "I know... I'm asking you to commit a cardinal sin.",
     "There is something I'd like to say. My purpose was given to me by my mother. But now, I act of my own volition."
 ]
-
 
 module.exports = {
 
